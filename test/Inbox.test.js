@@ -28,7 +28,6 @@ beforeEach(async () => {
 describe('Inbox', () => {
   it('deploys a contract', () => {
     assert.ok(inbox.options.address);
-    // assert.equal(car.park(), 'stopped');
   });
 
   it('has a default message',  async () => {
