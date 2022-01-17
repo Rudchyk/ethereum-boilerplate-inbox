@@ -1,7 +1,7 @@
-const assert = require('assert');
-const ganache = require('ganache-cli');
-const Web3 = require('web3');
-const { abi, evm } = require('../compile');
+const assert = require("assert");
+const ganache = require("ganache-cli");
+const Web3 = require("web3");
+const { abi, evm } = require("../compile");
 
 const web3 = new Web3(ganache.provider());
 
@@ -19,19 +19,19 @@ beforeEach(async () => {
     })
     .send({
       from: accounts[0],
-      gas: '1000000',
+      gas: "1000000",
     });
 });
 
-describe('Lottery Contract', () => {
-  it('deploys a contract', () => {
+describe("Lottery Contract", () => {
+  it("deploys a contract", () => {
     assert.ok(lottery.options.address);
   });
 
-  it('should have 1 player',  async () => {
+  it("should have 1 player", async () => {
     await lottery.methods.enter().send({
       from: accounts[1],
-      value: web3.utils.toWei('0.02', 'ether'),
+      value: web3.utils.toWei("0.02", "ether"),
     });
 
     const players = await lottery.methods.getPlayers().call();
@@ -41,18 +41,18 @@ describe('Lottery Contract', () => {
     assert.equal(playersLength, 1);
   });
 
-  it('allows multiple accounts to enter',  async () => {
+  it("allows multiple accounts to enter", async () => {
     await lottery.methods.enter().send({
       from: accounts[0],
-      value: web3.utils.toWei('0.02', 'ether'),
+      value: web3.utils.toWei("0.02", "ether"),
     });
     await lottery.methods.enter().send({
       from: accounts[1],
-      value: web3.utils.toWei('0.02', 'ether'),
+      value: web3.utils.toWei("0.02", "ether"),
     });
     await lottery.methods.enter().send({
       from: accounts[2],
-      value: web3.utils.toWei('0.02', 'ether'),
+      value: web3.utils.toWei("0.02", "ether"),
     });
 
     const playersLength = await lottery.methods.getPlayersLength().call();
@@ -60,7 +60,7 @@ describe('Lottery Contract', () => {
     assert.equal(playersLength, 3);
   });
 
-  it('should restrict player with negative value of ether',  async () => {
+  it("should restrict player with negative value of ether", async () => {
     try {
       await lottery.methods.enter().send({
         from: accounts[1],
@@ -72,21 +72,21 @@ describe('Lottery Contract', () => {
     }
   });
 
-  it('only manager can call pickWinner', async () => {
+  it("only manager can call pickWinner", async () => {
     try {
       await lottery.methods.pickWinner().send({
         from: accounts[1],
       });
-      assert(false)
+      assert(false);
     } catch (error) {
       assert(error);
     }
   });
 
-  it('sends money to the winner and resets the players', async () => {
+  it("sends money to the winner and resets the players", async () => {
     await lottery.methods.enter().send({
       from: accounts[0],
-      value: web3.utils.toWei('2', 'ether'),
+      value: web3.utils.toWei("2", "ether"),
     });
 
     const initialBalance = await web3.eth.getBalance(accounts[0]);
@@ -98,8 +98,7 @@ describe('Lottery Contract', () => {
     const finalBalance = await web3.eth.getBalance(accounts[0]);
     const difference = finalBalance - initialBalance;
 
-    assert(difference > web3.utils.toWei('1.8', 'ether'));
-
+    assert(difference > web3.utils.toWei("1.8", "ether"));
 
     const playersLength = await lottery.methods.getPlayersLength().call();
 
