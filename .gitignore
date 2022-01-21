@@ -1,5 +1,7 @@
 .DS_Store
 node_modules
-boilerplate-inbox.zip
-lottery-react/data/lottery-react
-kickstart/data/kickstart
+02_lottery/data/lottery-boilerplate
+03_lottery-react/data/lottery-react
+04_kickstart/data/kickstart
+05_kickstart-next/.next
+05_kickstart-next/data/kickstart
